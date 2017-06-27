@@ -1,10 +1,10 @@
 var backgroundImg, island, keyImg, fire, eyeImg, eyeLeft, eyeRight;
 var factor = 1;
-var eyeOpen = true;
 var eyeTime = 0;
 
 var stars = [];
-var lock, eye;
+var lock;
+var eye = {x: 0, y: 0, open: true, time: 0};
 
 function preload() {
   backgroundImg = loadImage("assets/concrete.jpg");
@@ -40,14 +40,8 @@ function setup() {
   lock.x = (width - lockImg.width)/2;
   lock.y = height-240*factor;
 
-  eye = {x: 0, y: 0, open: true, time: 0};
   eye.x = width/2-island.width/2+370*factor;
   eye.y = 110*factor;
-
-  setInterval(function(){
-    eye.open = false;
-    eye.time = millis();
-  }, 4000);
 
 }
 
@@ -122,7 +116,10 @@ function mouseDragged() {
   }
 }
 
-
+setInterval(function(){
+  eye.open = false;
+  eye.time = millis();
+}, 4000);
 
 function windowResized() {
   var dx = (width - windowWidth)/2;
