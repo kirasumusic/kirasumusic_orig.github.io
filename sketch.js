@@ -44,6 +44,11 @@ function setup() {
   eye.x = width/2-island.width/2+370*factor;
   eye.y = 110*factor;
 
+  setInterval(function(){
+    eye.open = false;
+    eye.time = millis();
+  }, 4000);
+
 }
 
 function draw() {
@@ -117,10 +122,7 @@ function mouseDragged() {
   }
 }
 
-setInterval(function(){
-  eye.open = false;
-  eye.time = millis();
-}, 4000);
+
 
 function windowResized() {
   var dx = (width - windowWidth)/2;
