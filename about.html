@@ -7,9 +7,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
   <title>Kirasu</title>
-  <meta name="description" content="Kirasu is the creative collaboration of all potential collapsed into a cohesive music experience">
+  <meta name="description" content="a creative collaboration collapsed into a cohesive music experience">
   <meta name="author" content="Kirasu">
-  <link rel="icon" href="../../favicon.ico">
+  <link rel="icon" href="assets/favicon.ico">
 
   <script src="//code.jquery.com/jquery.min.js"></script>
   <script src="libraries/d3.v3.js" type="text/javascript"></script>
@@ -17,6 +17,19 @@
   <script src="libraries/p5.dom.js" type="text/javascript"></script>
   <script src="libraries/p5.sound.js" type="text/javascript"></script>
   <!-- <script src="libraries/p5.play.js" type="text/javascript"></script> -->
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Kirasu's Music">
+  <meta name="twitter:description" content="a creative collaboration collapsed into a cohesive music experience">
+  <meta name="twitter:image" content="assets/titleImage.jpg">
+
+  <!-- Facebook -->
+  <meta property="og:title" content="Kirasu's Music"/>
+  <meta property="og:image" content="assets/titleImage.jpg"/>
+  <meta property="og:site_name" content="Kirasu"/>
+  <meta property="og:description" content="a creative collaboration collapsed into a cohesive music experience"/>
+
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r62/three.min.js" type="text/javascript"></script>
   <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/175711/trackball_ctrl_r62.js" type="text/javascript"></script>
@@ -35,7 +48,8 @@
 
 </head>
 
-<body>
+<body id="about">
+  <div id="aboutbox"></div>
   <div class="container">
     <div>
       <h1>About</h1>
@@ -44,7 +58,7 @@
       <p>At the heart of Kirasu are three musicians, vocalist/lyricist Sarah Fontenelle, guitarist David Rosser (Afghan Whigs, Twilight Singers), and multi-instrumentalist Alex Smith (Rotary Downs, World Leader Pretend), who gave life to the project in the spring of 2016. Since then, they have nurtured Kirasu with the gradual accumulation of insight and skill from several other creative thinkers. The current installation includes work by Jenna deBoisblanc (computer scientist), Jason Kruppa (photographer), and Rebecca Rebouche (visual artist). Musical collaborators include singer-songwriter, Joseph Arthur, multi-instrumentalist Rick Nelson (Afghan Whigs, Polyphonic Spree), drummer Eric Rogers (Vox and the Hound), and drummer Greg Wieczorek (Norah Jones, Joseph Arthur).</p>
     </div>
   </div>
-  <div id="blackbar"></div>
+  <!-- <div id="blackbar"></div> -->
   <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -69,7 +83,6 @@
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#">ABOUT</a></li>
         <li><a href="contact.html">CONTACT</a></li>
-        <li><a href="mailing.html">MAILING</a></li>
         <li><a href="music.html">MUSIC</a></li>
       </ul>
     </div>
