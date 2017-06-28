@@ -6,15 +6,11 @@ var orchid, moth, whale;
 var constellations = [];
 var selected = -1;
 var mobileView = {x:0, y:0};
-var dragStart = {x:0, y:0};
-var view = {x:0, y:0};
-var viewTemp = {x:0, y:0};
 var minWidth = 1300;
 var minHeight = 800;
 var maxTransX = 1300;
 var maxTransY = 800;
 var zoom = false;
-var dragging = false;
 
 var song;
 var audio;
@@ -66,15 +62,14 @@ function setup() {
   }
   if (windowHeight < minHeight) h = minHeight;
   createCanvas(w, h);
-  view.x = width/2;
   colorMode(HSB, width);
   angleMode(DEGREES);
   ellipseMode(CENTER);
 
   stars = new Flock();
   // Add an initial set of boids into the system
-  for (var i = 0; i < 300; i++) {
-    var b = new Boid(random(-2000,2200),random(height), i);
+  for (var i = 0; i < 100; i++) {
+    var b = new Boid(random(width),random(height), i);
     stars.addBoid(b);
   }
   textFont("Quicksand");
@@ -87,19 +82,6 @@ function draw() {
   if(!zoom) background(backgroundImg);
   else image(backgroundImg, 0, 0, width, height);
   imageMode(CENTER);
-  // if (!dragging) translate(view.x, view.y);
-  // else translate(viewTemp.x, viewTemp.y);
-  if (mouseX > width*3/4) {
-    var speed = map(mouseX, width*3/4, width, 1, 55);
-    view.x-= speed;
-    if (view.x < -800) view.x = -800;
-  }
-  else if (mouseX < width/4) {
-    var speed = map(mouseX, width/4, 0, 1, 55);
-    view.x+= speed;
-    if (view.x > 2000) view.x = 2000;
-  }
-  translate(view.x, view.y);
   stars.star();
 
 
@@ -109,28 +91,8 @@ function draw() {
   }
 }
 
-// function mousePressed() {
-//   dragStart.x = mouseX;
-//   dragStart.y = mouseY;
-// }
-// function mouseReleased() {
-//   view.x = viewTemp.x;
-//   view.y = viewTemp.y;
-//   dragging = false;
-// }
-// function mouseDragged() {
-//   dragging = true;
-//   viewTemp.x = mouseX - dragStart.x + view.x;
-//   if (viewTemp.x > 2000) viewTemp.x = 2000;
-//   else if (viewTemp.x < -800) viewTemp.x = -800;
-//   //viewTemp.y = mouseY - dragStart.y+ view.y;
-// }
-
-
-
-function Constellation(id, song, url, x, y, tx, ty, trot, rot, rad, sc, scorig, points) {
+function Constellation(id, song, url, x, y, tx, ty, trot, rot, rad, sc, points) {
   this.id = id;
-  this.scorig = scorig;
   this.song = song;
   this.url = url;
   this.x = x;
@@ -166,16 +128,7 @@ function Constellation(id, song, url, x, y, tx, ty, trot, rot, rad, sc, scorig, 
     return false;
   }
   this.getDistance = function () {
-    var x;
-    if (dragging) {
-      x =  mouseX - (this.x + viewTemp.x);
-      y =  mouseY - (this.y + viewTemp.y);
-    }
-    else {
-      x =  mouseX - (this.x + view.x);
-      y =  mouseY - (this.y + view.y);
-    }
-    var d = sqrt(x*x + y*y);
+    var d = sqrt((mouseX - this.x)*(mouseX - this.x) + (mouseY - this.y)*(mouseY - this.y));
     return d;
   }
   this.display = function() {
@@ -237,11 +190,6 @@ function Constellation(id, song, url, x, y, tx, ty, trot, rot, rad, sc, scorig, 
   }
   this.resizeImg = function() {
     constellationImgs[this.id].resize(constellationImgs[this.id].width*this.sc, constellationImgs[this.id].height*this.sc);
-    var ptSc = this.sc / this.scorig;
-    for (var i = 0; i < this.points.length; i++) {
-      this.points[i].x *= ptSc;
-      this.points[i].y *= ptSc;
-    }
   }
 }
 
@@ -257,21 +205,20 @@ function setupConstellations() {
   var x = width/2;
   var y = height/2;
 
-  var points = [{x:-160, y:0},{x:0, y:-90}, {x:140, y:0}, {x:100, y:40}, {x:130, y:80}, {x:0, y:100}, {x:-110, y:80}, {x:-90, y:40}];
-                                        // id,              song,               url,                x, y, tx, ty, trot, rot, rad, sc, scorig, points
-  constellations[0] = new Constellation(constID.orchid.id, constID.orchid.song, constID.orchid.url, -1600, height/2, 220, 380, -5, 0, 50, .5, .3, points);
+  var points = [{x:-160, y:60},{x:0, y:-90}, {x:140, y:50}, {x:0, y:90}];
+  constellations[0] = new Constellation(constID.orchid.id, constID.orchid.song, constID.orchid.url, x, y+200, 220, 380, -5, 0, 50, .5, .3, points);
 
-  points = [{x:-160, y:30}, {x:40, y:-110}, {x:150, y:120}, {x:10, y:60}, {x:-20, y:120}, {x:-50, y:30}];
-  constellations[1] = new Constellation(constID.moth.id, constID.moth.song, constID.moth.url , -800, height/2, 220, 300, -5, 15, 50, .5, .3, points);
+  points = [{x:-160, y:60},{x:0, y:-90}, {x:160, y:60}];
+  constellations[1] = new Constellation(constID.moth.id, constID.moth.song, constID.moth.url , 500, 300, 220, 300, -5, 15, 50, .5, .3, points);
 
   points = [{x:0, y:120},{x:-160, y:80}, {x:-260, y:-40}, {x:0, y:-10}, {x:160, y:60}, {x:260, y:10}, {x:280, y:-40}, {x:240, y:-60}, {x:160, y:60}];
-  constellations[2] = new Constellation(constID.whale.id, constID.whale.song, constID.whale.url, 0, height/2, 200, 270, -5, 0, 50, .5, .35, points);
-
-  points = [{x:-160, y:40}, {x:-80, y:20}, {x:-220, y:-80}, {x:-110, y:-130}, {x:0, y:-90}, {x:140, y:50}, {x:0, y:90}];
-  constellations[3] = new Constellation(constID.handeye.id, constID.handeye.song, constID.handeye.url,800, height/2, 200, 270, -5, -65, 50, .5, .3, points);
+  constellations[2] = new Constellation(constID.whale.id, constID.whale.song, constID.whale.url, x+250, y-200, 200, 270, -5, 0, 50, .5, .35, points);
 
   points = [{x:-160, y:60},{x:0, y:-90}, {x:140, y:50}, {x:0, y:90}];
-  constellations[4] = new Constellation(constID.bird.id, constID.bird.song, constID.bird.url, 1600, height/2, 200, 270, -5, -25, 50, .5, .3, points);
+  constellations[3] = new Constellation(constID.handeye.id, constID.handeye.song, constID.handeye.url,x-450, y+160, 200, 270, -5, -65, 50, .5, .3, points);
+
+  points = [{x:-160, y:60},{x:0, y:-90}, {x:140, y:50}, {x:0, y:90}];
+  constellations[4] = new Constellation(constID.bird.id, constID.bird.song, constID.bird.url, x+410, y+200, 200, 270, -5, -25, 50, .5, .3, points);
 
   for (var i = 0; i < constellations.length; i++) {
     constellations[i].resizeImg();
