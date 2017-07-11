@@ -13,7 +13,6 @@ var minWidth = 1300;
 var minHeight = 800;
 var maxTransX = 1300;
 var maxTransY = 800;
-var zoom = false;
 var dragging = false;
 
 var song;
@@ -67,6 +66,11 @@ function setup() {
   if (windowHeight < minHeight) h = minHeight;
   createCanvas(w, h);
   view.x = width/2;
+  if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+     // is mobile..
+     view.y = height/2;
+  }
+
   colorMode(HSB, width);
   angleMode(DEGREES);
   ellipseMode(CENTER);
@@ -84,31 +88,36 @@ function setup() {
 
 function draw() {
   imageMode(CORNER);
-  if(!zoom) background(backgroundImg);
-  else image(backgroundImg, 0, 0, width, height);
+  background(backgroundImg);
   imageMode(CENTER);
   // if (!dragging) translate(view.x, view.y);
   // else translate(viewTemp.x, viewTemp.y);
-  if (mouseX > width*3/4) {
-    var speed = map(mouseX, width*3/4, width, 1, 55);
-    view.x-= speed;
-    if (view.x < -800) view.x = -800;
-  }
-  else if (mouseX < width/4) {
-    var speed = map(mouseX, width/4, 0, 1, 55);
-    view.x+= speed;
-    if (view.x > 2000) view.x = 2000;
-  }
+
+  if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+     checkMobile();
+   }
+  else getMouseMove();
+
   translate(view.x, view.y);
   stars.star();
 
-
-  checkMobile();
   for (var i = 0; i < constellations.length; i++) {
     constellations[i].display();
   }
 }
 
+function getMouseMove() {
+  if (mouseX > width*3/4) {
+    var speed = map(mouseX, width*3/4, width, 1, 35);
+    view.x-= speed;
+    if (view.x < -800) view.x = -800;
+  }
+  else if (mouseX < width/4) {
+    var speed = map(mouseX, width/4, 0, 1, 35);
+    view.x+= speed;
+    if (view.x > 2000) view.x = 2000;
+  }
+}
 // function mousePressed() {
 //   dragStart.x = mouseX;
 //   dragStart.y = mouseY;
@@ -129,18 +138,21 @@ function draw() {
 
 
 function Constellation(id, song, url, x, y, tx, ty, trot, rot, rad, sc, scorig, points) {
+  this.factor = windowHeight/900;
   this.id = id;
-  this.scorig = scorig;
   this.song = song;
   this.url = url;
-  this.x = x;
+  this.origX = x;
+  this.x = x*this.factor;
   this.y = y;
   this.tx = tx;
   this.ty = ty;
   this.trot = trot;
   this.rot = rot;
   this.rad = rad;
-  this.sc = sc;
+  this.scorig = scorig;
+  this.scStart = sc;
+  this.sc = sc * this.factor;
   this.points = points;
   // this.brightStars = new Flock();
   // // Add an initial set of boids into the system
@@ -243,6 +255,11 @@ function Constellation(id, song, url, x, y, tx, ty, trot, rot, rad, sc, scorig, 
       this.points[i].y *= ptSc;
     }
   }
+  this.resize = function() {
+    this.factor = windowHeight/900;
+    this.x = this.factor*this.origX;
+    this.sc = this.scStart * this.factor;
+  }
 }
 
 function mouseClicked() {
@@ -278,10 +295,12 @@ function setupConstellations() {
   }
 }
 
-function checkMobile() {
-  // is mobile?
-  if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
 
+}
+
+function checkMobile() {
     // rotation X
     // 90 upright
     // 0 flat on back
@@ -294,5 +313,4 @@ function checkMobile() {
 
 
     console.log("z: " + rotationZ + " " + rotationX);
-  }
 }

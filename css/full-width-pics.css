@@ -18,12 +18,12 @@ body {
 }
 
 .image-bg-fluid-height {
-	background: url('http://lorempixel.com/g/1920/500/') no-repeat center center scroll;
-    padding: 100px 0;
+	background: url('assets/sarah.jpg') no-repeat center center scroll;
+    padding: 0px 0;
 }
 
 .image-bg-fixed-height {
-	background: url('http://lorempixel.com/g/1920/500/') no-repeat center center scroll;
+	background: url('assets/sarah.jpg') no-repeat center center scroll;
     height: 450px;
 }
 
@@ -62,23 +62,3 @@ footer {
         font-size: 2em;
     }
 }
-
-header {
-    margin-top: -100px;
-    position: absolute;
-    text-align: center;
-    top: 50%;
-    width: 100%;
-}
-
-.overlay {
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    z-index: 2;
-    background: green;
-    opacity: 0.5;
-}
-

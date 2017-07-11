@@ -7,44 +7,6 @@ body {
   font-family: 'Quicksand', sans-serif;
 }
 
-#about {
-  background-image: url("assets/sarah.jpg");
-  background-repeat:no-repeat;
-  background-size: cover;
-}
-
-#aboutbox {
-  position:absolute;
-  width:100%;
-  height:120%;
-  top:0px;
-  left:0px;
-  /*background-color: rgba(0, 0, 0, 0.5);*/
-  z-index:-100;
-}
-
-
-
-#about .container {
-  color:rgba(255, 255, 255, .1);
-}
-
-#about hr {
-  border-color:rgba(255, 255, 255, .1);
-}
-
-#about hr:hover {
-  border-color:white;
-}
-
-#about .container div {
-  padding: 20px 50px 50px 50px;
-}
-
-#about .container div:hover {
-  color:white;
-  background-color: rgba(0, 0, 0, 0.5);
-}
 
 #container {
   position:fixed;
@@ -65,7 +27,7 @@ p {
 }
 
 #p5_loading {
-  width: 500px;
+  width: 100%;
   height: 100px;
   text-align: center;
   position: absolute;
@@ -78,12 +40,12 @@ p {
   margin: auto;
 }
 
-.container {
+/*.container {
   font-family: 'Quicksand', sans-serif;
   padding-top:200px;
   color:white;
   background-color: transparent;
-}
+}*/
 
 .showing {
   display: inline;
@@ -235,6 +197,9 @@ nav {
   background-color: black;
 }
 
+#about #blackbar {
+  display: none;
+}
 
 
 @media (max-width: 768px) {
@@ -255,7 +220,18 @@ nav {
   }
 
   a#logo {
-    left:30px;
+    left:20px;
+    height:50px;
+    width:100px;
+  }
+
+  #logo svg g {
+    transform: scale(.03);
+  }
+
+  #logo svg {
+    height:50px;
+    width:100px;
   }
 
   #socials {
