@@ -54,8 +54,8 @@ function draw() {
 }
 
 function mousePressed() {
-  var navMain = $(".navbar-collapse"); // avoid dependency on #id
-  navMain.collapse('hide');
+  // var navMain = $(".navbar-collapse"); // avoid dependency on #id
+  // navMain.collapse('hide');
 }
 
 function mouseReleased() {

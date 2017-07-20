@@ -19,7 +19,14 @@ body {
 
 .image-bg-fluid-height {
 	background: url('assets/sarah.jpg') no-repeat center center scroll;
-    padding: 0px 0;
+    padding: 0px 0px 0px 0px;
+}
+
+@media (max-width: 768px) {
+.image-bg-fluid-height {
+	background: url('assets/sarah.jpg') no-repeat center center scroll;
+    padding: 70px 0px 0px 0px;
+}
 }
 
 .image-bg-fixed-height {

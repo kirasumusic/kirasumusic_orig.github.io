@@ -14,6 +14,7 @@ var minHeight = 800;
 var maxTransX = 1300;
 var maxTransY = 800;
 var dragging = false;
+var isMobile = false;
 
 var song;
 var audio;
@@ -67,8 +68,8 @@ function setup() {
   createCanvas(w, h);
   view.x = width/2;
   if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-     // is mobile..
-     view.y = height/2;
+    // is mobile..
+    isMobile = true;
   }
 
   colorMode(HSB, width);
@@ -93,46 +94,62 @@ function draw() {
   // if (!dragging) translate(view.x, view.y);
   // else translate(viewTemp.x, viewTemp.y);
 
-  if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-     checkMobile();
-   }
-  else getMouseMove();
-
-  translate(view.x, view.y);
+  if (!isMobile) {
+    getMouseMove();
+    translate(view.x, view.y);
+  }
+  else {
+    if (dragging) translate(viewTemp.x, viewTemp.y);
+    else translate(view.x, view.y)
+  }
   stars.star();
 
   for (var i = 0; i < constellations.length; i++) {
     constellations[i].display();
   }
+
+  if (dragging) {
+    viewTemp.x = mouseX - dragStart.x + view.x;
+    if (viewTemp.x > 2000) viewTemp.x = 2000;
+    else if (viewTemp.x < -800) viewTemp.x = -800;
+  }
 }
 
 function getMouseMove() {
-  if (mouseX > width*3/4) {
-    var speed = map(mouseX, width*3/4, width, 1, 35);
+  if (mouseX > windowWidth*3/4) {
+    var speed = map(mouseX, windowWidth*3/4, windowWidth, 1, 35);
     view.x-= speed;
     if (view.x < -800) view.x = -800;
   }
-  else if (mouseX < width/4) {
-    var speed = map(mouseX, width/4, 0, 1, 35);
+  else if (mouseX < windowWidth/4) {
+    var speed = map(mouseX, windowWidth/4, 0, 1, 35);
     view.x+= speed;
     if (view.x > 2000) view.x = 2000;
   }
 }
-// function mousePressed() {
-//   dragStart.x = mouseX;
-//   dragStart.y = mouseY;
-// }
-// function mouseReleased() {
-//   view.x = viewTemp.x;
-//   view.y = viewTemp.y;
-//   dragging = false;
-// }
+
+function mousePressed() {
+  dragStart.x = mouseX;
+  dragStart.y = mouseY;
+  dragging = true;
+}
+
+function mouseReleased() {
+  dragging = false;
+  if (isMobile) {
+    view.x = viewTemp.x;
+    view.y = viewTemp.y;
+  }
+}
+
 // function mouseDragged() {
-//   dragging = true;
-//   viewTemp.x = mouseX - dragStart.x + view.x;
-//   if (viewTemp.x > 2000) viewTemp.x = 2000;
-//   else if (viewTemp.x < -800) viewTemp.x = -800;
-//   //viewTemp.y = mouseY - dragStart.y+ view.y;
+//   if (isMobile) {
+//     dragging = true;
+//     viewTemp.x = mouseX - dragStart.x + view.x;
+//     if (viewTemp.x > 2000) viewTemp.x = 2000;
+//     else if (viewTemp.x < -800) viewTemp.x = -800;
+//     //viewTemp.y = mouseY - dragStart.y+ view.y;
+//   }
 // }
 
 
@@ -275,7 +292,7 @@ function setupConstellations() {
   var y = height/2;
 
   var points = [{x:-160, y:0},{x:0, y:-90}, {x:140, y:0}, {x:100, y:40}, {x:130, y:80}, {x:0, y:100}, {x:-110, y:80}, {x:-90, y:40}];
-                                        // id,              song,               url,                x, y, tx, ty, trot, rot, rad, sc, scorig, points
+  // id,              song,               url,                x, y, tx, ty, trot, rot, rad, sc, scorig, points
   constellations[0] = new Constellation(constID.orchid.id, constID.orchid.song, constID.orchid.url, -1600, height/2, 220, 380, -5, 0, 50, .5, .3, points);
 
   points = [{x:-160, y:30}, {x:40, y:-110}, {x:150, y:120}, {x:10, y:60}, {x:-20, y:120}, {x:-50, y:30}];
@@ -301,16 +318,8 @@ function windowResized() {
 }
 
 function checkMobile() {
-    // rotation X
-    // 90 upright
-    // 0 flat on back
-    var rx = 0;
-    if (rotationX < 30) rx = 30;
-    else if (rotationX > 140) rx = 140;
-    translate(0, map(rx, 30, 140, -maxTransY/2, maxTransY/2));
+  // rotation X
+  // 90 upright
+  // 0 flat on back
 
-    // rotationY
-
-
-    console.log("z: " + rotationZ + " " + rotationX);
 }

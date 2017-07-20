@@ -85,10 +85,10 @@ function mousePressed() {
     lock.offSetX = mouseX - lock.x;
     lock.offSetY = mouseY - lock.y;
   }
-  else {
-    var navMain = $(".navbar-collapse"); // avoid dependency on #id
-    navMain.collapse('hide');
-  }
+  // else {
+  //   var navMain = $(".navbar-collapse"); // avoid dependency on #id
+  //   navMain.collapse('hide');
+  // }
 }
 
 function mouseReleased() {

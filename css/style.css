@@ -69,6 +69,12 @@ canvas {
   src: url('fonts/Bazar.ttf');
 }
 
+.navbar {
+  z-index: 1;
+  overflow-x: hidden;
+
+}
+
 .navbar-header {
   padding:10px;
   float: none;
@@ -232,6 +238,8 @@ nav {
   #logo svg {
     height:50px;
     width:100px;
+    top: 15px;
+    position: fixed;
   }
 
   #socials {
